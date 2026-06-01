@@ -21,12 +21,19 @@
             50% { transform: translateY(-15px); }
         }
 
-        /* AJUSTADO: contain para não cortar e z-index alto */
+        /* AJUSTE PARA NÃO CORTAR O TOPO */
         #videoPrincipal {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            border-radius: 20px; 
-            object-fit: contain; /* GARANTE QUE O VÍDEO APAREÇA INTEIRO */
-            display: none; z-index: 1000; background: #000;
+            position: absolute; 
+            top: 50%; left: 50%; 
+            transform: translate(-50%, -50%); /* Centraliza o vídeo na tela */
+            width: 100%; 
+            height: auto; /* Deixa o vídeo definir a própria altura */
+            max-height: 100vh; /* Garante que não passe da tela do celular */
+            border-radius: 15px; 
+            object-fit: contain; 
+            display: none; 
+            z-index: 1000; 
+            background: #000;
         }
 
         .toque { position: absolute; cursor: pointer; z-index: 50; opacity: 0; -webkit-tap-highlight-color: transparent; }
@@ -56,4 +63,26 @@
 
         function rodar(nome) {
             v.src = nome + "?refresh=" + Math.random();
-            v.style.display = '
+            v.style.display = 'block';
+            v.muted = false; 
+            v.volume = 1.0; 
+            
+            v.play().catch(function(error) {
+                console.log("Tentando rodar mudo...");
+                v.muted = true;
+                v.play();
+            });
+        }
+
+        function parar() {
+            v.pause();
+            v.style.display = 'none';
+            v.src = "";
+        }
+
+        v.onended = parar;
+        v.onclick = parar;
+    </script>
+
+</body>
+</html>
