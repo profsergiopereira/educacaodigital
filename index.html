@@ -13,7 +13,6 @@
             position: absolute; top: -30px; right: -10px;
             width: 110px; z-index: 999; cursor: pointer;
             animation: bounce 3s ease-in-out infinite;
-            transition: opacity 0.3s ease; /* Transição suave para sumir/voltar */
             -webkit-tap-highlight-color: transparent;
         }
 
@@ -26,14 +25,9 @@
             position: absolute; 
             top: 50%; left: 50%; 
             transform: translate(-50%, -50%);
-            width: 100%; 
-            height: auto; 
-            max-height: 100vh; 
-            border-radius: 15px; 
-            object-fit: contain; 
-            display: none; 
-            z-index: 1000; 
-            background: #000;
+            width: 100%; height: auto; max-height: 100vh; 
+            border-radius: 15px; object-fit: contain; 
+            display: none; z-index: 1000; background: #000;
         }
 
         .toque { position: absolute; cursor: pointer; z-index: 50; opacity: 0; -webkit-tap-highlight-color: transparent; }
@@ -45,7 +39,7 @@
 <body>
 
     <div class="base">
-        <img src="agrinho.png" id="btnAgro" class="agrinho-touch" onclick="rodar('video-agrinho.mp4')">
+        <img src="agrinho.png" id="agro" class="agrinho-touch" onclick="rodar('video-agrinho.mp4')">
 
         <img src="logo.jpg" class="capa">
 
@@ -53,45 +47,4 @@
 
         <div class="toque" id="cabeca-btn" onclick="rodar('seu-video.mp4')"></div>
 
-        <a href="https://youtube.com/@osergiopereira" target="_blank" class="toque rede-btn" id="yt-btn"></a>
-        <a href="https://instagram.com/prof.sergiopereira" target="_blank" class="toque rede-btn" id="ig-btn"></a>
-        <a href="https://github.com/profsergiopereira" target="_blank" class="toque rede-btn" id="gh-btn"></a>
-    </div>
-
-    <script>
-        const v = document.getElementById('videoPrincipal');
-        const btnAgro = document.getElementById('btnAgro');
-
-        function rodar(nome) {
-            v.src = nome + "?refresh=" + Math.random();
-            v.style.display = 'block';
-            
-            // ESCONDE O BOTÃO AGRINHO
-            btnAgro.style.opacity = '0';
-            btnAgro.style.pointerEvents = 'none'; // Impede cliques enquanto invisível
-
-            v.muted = false; 
-            v.volume = 1.0; 
-            
-            v.play().catch(function(error) {
-                v.muted = true;
-                v.play();
-            });
-        }
-
-        function parar() {
-            v.pause();
-            v.style.display = 'none';
-            v.src = "";
-            
-            // VOLTA O BOTÃO AGRINHO
-            btnAgro.style.opacity = '1';
-            btnAgro.style.pointerEvents = 'auto';
-        }
-
-        v.onended = parar;
-        v.onclick = parar;
-    </script>
-
-</body>
-</html>
+        <a href="https://youtube.com/@osergiopereira" target="_blank" class
