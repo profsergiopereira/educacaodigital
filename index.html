@@ -13,6 +13,7 @@
             position: absolute; top: -30px; right: -10px;
             width: 110px; z-index: 999; cursor: pointer;
             animation: bounce 3s ease-in-out infinite;
+            transition: opacity 0.3s ease; /* Transição suave para sumir/voltar */
             -webkit-tap-highlight-color: transparent;
         }
 
@@ -21,14 +22,13 @@
             50% { transform: translateY(-15px); }
         }
 
-        /* AJUSTE PARA NÃO CORTAR O TOPO */
         #videoPrincipal {
             position: absolute; 
             top: 50%; left: 50%; 
-            transform: translate(-50%, -50%); /* Centraliza o vídeo na tela */
+            transform: translate(-50%, -50%);
             width: 100%; 
-            height: auto; /* Deixa o vídeo definir a própria altura */
-            max-height: 100vh; /* Garante que não passe da tela do celular */
+            height: auto; 
+            max-height: 100vh; 
             border-radius: 15px; 
             object-fit: contain; 
             display: none; 
@@ -45,7 +45,7 @@
 <body>
 
     <div class="base">
-        <img src="agrinho.png" class="agrinho-touch" onclick="rodar('video-agrinho.mp4')">
+        <img src="agrinho.png" id="btnAgro" class="agrinho-touch" onclick="rodar('video-agrinho.mp4')">
 
         <img src="logo.jpg" class="capa">
 
@@ -60,29 +60,15 @@
 
     <script>
         const v = document.getElementById('videoPrincipal');
+        const btnAgro = document.getElementById('btnAgro');
 
         function rodar(nome) {
             v.src = nome + "?refresh=" + Math.random();
             v.style.display = 'block';
-            v.muted = false; 
-            v.volume = 1.0; 
             
-            v.play().catch(function(error) {
-                console.log("Tentando rodar mudo...");
-                v.muted = true;
-                v.play();
-            });
-        }
+            // ESCONDE O BOTÃO AGRINHO
+            btnAgro.style.opacity = '0';
+            btnAgro.style.pointerEvents = 'none'; // Impede cliques enquanto invisível
 
-        function parar() {
-            v.pause();
-            v.style.display = 'none';
-            v.src = "";
-        }
-
-        v.onended = parar;
-        v.onclick = parar;
-    </script>
-
-</body>
-</html>
+            v.muted = false; 
+            v.volume = 1.0
