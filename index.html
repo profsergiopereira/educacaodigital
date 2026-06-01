@@ -37,7 +37,7 @@
             height: 100%;
             object-fit: cover;
             border-radius: 15px;
-            display: none; /* Começa escondido */
+            display: none;
             z-index: 5;
         }
 
@@ -50,26 +50,14 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* Brilho ao passar o rato ou tocar */
         .hotspot:hover, .hotspot:active {
             opacity: 1;
             background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
         }
 
         /* POSIÇÕES */
-        #btn-cabelo {
-            top: 20%;
-            left: 35%;
-            width: 30%;
-            height: 30%;
-        }
-
-        .social-btn {
-            bottom: 5%;
-            width: 15%;
-            height: 15%;
-        }
-
+        #btn-cabelo { top: 20%; left: 35%; width: 30%; height: 30%; }
+        .social-btn { bottom: 5%; width: 15%; height: 15%; }
         #youtube { left: 25%; }
         #instagram { left: 42%; }
         #github { left: 59%; }
@@ -84,7 +72,7 @@
 
         <img src="logo.jpg" alt="Prof Sergio" class="img-base">
 
-        <div class="hotspot" id="btn-cabelo" onclick="toggleVideo()" title="Clique para o meu feed mental"></div>
+        <div class="hotspot" id="btn-cabelo" onclick="toggleVideo()"></div>
 
         <a href="https://www.youtube.com/@osergiopereira" target="_blank" class="hotspot social-btn" id="youtube"></a>
         <a href="https://www.instagram.com/prof.sergiopereira" target="_blank" class="hotspot social-btn" id="instagram"></a>
@@ -97,17 +85,17 @@
         function toggleVideo() {
             if (v.style.display === 'none' || v.style.display === '') {
                 v.style.display = 'block';
+                v.currentTime = 0; // Garante que começa do início
                 v.play();
             } else {
                 fecharVideo();
             }
         }
 
-        // Função para esconder o vídeo e resetar
         function fecharVideo() {
             v.pause();
-            v.currentTime = 0; // Volta o vídeo para o início
             v.style.display = 'none';
+            v.currentTime = 0;
         }
 
-        // O SE
+        // COM
