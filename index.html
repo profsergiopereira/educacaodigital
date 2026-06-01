@@ -5,14 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Prof Sergio Digital</title>
     <style>
-        body { margin: 0; padding: 0; background: #051622; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; }
-        .base { position: relative; width: 90vw; max-width: 420px; }
+        body { 
+            margin: 0; padding: 0; background: #051622; 
+            display: flex; justify-content: center; align-items: center; 
+            min-height: 100vh; overflow-x: hidden; 
+        }
+
+        /* AJUSTE DE RESPONSIVIDADE */
+        .base { 
+            position: relative; 
+            width: 95%; /* Quase toda a largura em telas pequenas */
+            max-width: 500px; /* Não deixa ficar gigante no PC, mantendo o aspecto de "cartão" */
+            margin: auto;
+        }
+
         .capa { width: 100%; border-radius: 20px; display: block; }
         
-        /* BOTÃO AGRINHO */
         #agro {
             position: absolute; top: -30px; right: -10px;
-            width: 110px; z-index: 100; cursor: pointer;
+            width: 25%; /* Agora o botão cresce proporcionalmente à base */
+            max-width: 110px; 
+            z-index: 100; cursor: pointer;
             animation: bounce 3s ease-in-out infinite;
             -webkit-tap-highlight-color: transparent;
         }
@@ -22,7 +35,6 @@
             50% { transform: translateY(-15px); }
         }
 
-        /* PLAYER */
         #videoPrincipal {
             position: absolute; top: 50%; left: 50%; 
             transform: translate(-50%, -50%);
@@ -30,13 +42,11 @@
             border-radius: 15px; display: none; z-index: 500; background: #000;
         }
 
-        /* ÁREA DA CABEÇA */
         #cabeca-click { 
             position: absolute; top: 15%; left: 25%; width: 50%; height: 30%; 
             z-index: 50; cursor: pointer;
         }
         
-        /* REDES SOCIAIS - Diminuí a altura para não bater no Agrinho */
         .social-link { 
             position: absolute; bottom: 5%; width: 18%; height: 12%; 
             z-index: 60; cursor: pointer; 
@@ -48,11 +58,8 @@
 
     <div class="base">
         <img src="logo.jpg" class="capa">
-        
         <img src="agrinho.png" id="agro">
-
         <video id="videoPrincipal" playsinline></video>
-
         <div id="cabeca-click"></div>
 
         <a href="https://youtube.com/@osergiopereira" target="_blank" class="social-link" id="yt"></a>
@@ -66,9 +73,9 @@
         const cabeca = document.getElementById('cabeca-click');
 
         function abrirVideo(nome) {
-            botaoAgro.style.display = 'none';
             player.src = nome;
             player.style.display = 'block';
+            botaoAgro.style.display = 'none';
             player.muted = false;
             player.play().catch(() => {
                 player.muted = true;
@@ -80,11 +87,9 @@
             player.pause();
             player.style.display = 'none';
             player.src = "";
-            // Espera 1 minuto para voltar
             setTimeout(() => { botaoAgro.style.display = 'block'; }, 60000);
         }
 
-        // Eventos de Clique (Mais modernos)
         botaoAgro.addEventListener('click', () => abrirVideo('video-agrinho.mp4'));
         cabeca.addEventListener('click', () => abrirVideo('seu-video.mp4'));
         player.addEventListener('click', fechar);
