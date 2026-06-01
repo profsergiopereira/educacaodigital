@@ -6,29 +6,39 @@
     <title>Prof Sergio Educação Digital</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body { 
             background-color: #051622; 
             display: flex; 
             justify-content: center; 
             align-items: center; 
-            height: 100vh; 
+            min-height: 100vh; 
+            width: 100vw;
             overflow: hidden; 
         }
+
         .interface-wrapper { 
             position: relative; 
-            height: 95vh; 
             display: inline-block; 
             background: #000; 
-            border-radius: 20px; 
+            border-radius: 20px;
+            /* Garante que o container não ultrapasse a tela em nenhuma direção */
+            max-width: 95vw;
+            max-height: 95vh;
         }
+
         .img-base { 
-            height: 100%; 
-            width: auto; 
+            /* Ajuste responsivo inteligente */
+            width: auto;
+            height: auto;
+            max-width: 95vw;
+            max-height: 95vh;
             display: block; 
             border-radius: 20px; 
             position: relative; 
             z-index: 1; 
         }
+
         #video-feed { 
             position: absolute; 
             top: 0; 
@@ -42,6 +52,7 @@
             pointer-events: none; 
             transition: opacity 0.5s ease; 
         }
+
         .hotspot { 
             position: absolute; 
             cursor: pointer; 
@@ -49,22 +60,33 @@
             opacity: 0; 
             transition: opacity 0.6s, box-shadow 0.6s; 
             outline: none; 
+            /* Melhora o toque no celular */
+            -webkit-tap-highlight-color: transparent;
         }
-        .hotspot:hover { opacity: 1; }
         
-        /* Ajustes das áreas de clique */
+        /* No celular, o brilho aparece ao tocar */
+        .hotspot:active, .hotspot:hover { opacity: 1; }
+        
+        /* POSIÇÕES EM PERCENTUAL (Mantém a precisão em qualquer tamanho) */
         #btn-cabelo { 
-            top: 28%; left: 48%; width: 19%; height: 21%; border-radius: 50%; 
+            top: 25%; left: 40%; width: 25%; height: 25%; border-radius: 50%; 
             background: radial-gradient(circle, rgba(255, 215, 0, 0.4) 0%, rgba(255, 215, 0, 0) 70%); 
             box-shadow: 0 0 35px gold; 
         }
+
         .social-btn { 
-            bottom: 6%; width: 8%; height: 10%; border-radius: 50%; 
+            bottom: 5%; width: 12%; height: 12%; border-radius: 50%; 
             background: rgba(255,255,255,0.2); 
         }
-        #youtube { left: 31%; } 
-        #instagram { left: 46%; } 
-        #github { left: 61%; }
+        #youtube { left: 28%; } 
+        #instagram { left: 44%; } 
+        #github { left: 60%; }
+
+        /* Ajuste específico para telas muito pequenas */
+        @media (max-width: 600px) {
+            .interface-wrapper { max-width: 98vw; }
+            .img-base { max-width: 98vw; }
+        }
     </style>
 </head>
 <body>
@@ -77,9 +99,9 @@
 
         <div class="hotspot" id="btn-cabelo" onclick="controlarVideo()" title="esse será meu feed mental, atualizado sempre que possivel e necessário"></div>
 
-        <a href="https://www.youtube.com/@osergiopereira" target="_blank" class="hotspot social-btn" id="youtube" title="YouTube"></a>
-        <a href="https://www.instagram.com/prof.sergiopereira" target="_blank" class="hotspot social-btn" id="instagram" title="Instagram"></a>
-        <a href="https://github.com/profsergiopereira" target="_blank" class="hotspot social-btn" id="github" title="GitHub"></a>
+        <a href="https://www.youtube.com/@osergiopereira" target="_blank" class="hotspot social-btn" id="youtube"></a>
+        <a href="https://www.instagram.com/prof.sergiopereira" target="_blank" class="hotspot social-btn" id="instagram"></a>
+        <a href="https://github.com/profsergiopereira" target="_blank" class="hotspot social-btn" id="github"></a>
     </div>
 
     <script>
@@ -88,14 +110,6 @@
             if (video.paused) {
                 video.play().then(() => { 
                     video.style.opacity = "1"; 
-                }).catch(err => { 
-                    console.log("Erro ao iniciar vídeo:", err); 
-                });
+                }).catch(err => { console.log(err); });
             } else {
                 video.style.opacity = "0";
-                setTimeout(() => { video.pause(); }, 500);
-            }
-        }
-    </script>
-</body>
-</html>
