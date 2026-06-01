@@ -39,48 +39,4 @@
         <img src="logo.jpg" class="capa">
         <img src="agrinho.png" id="agro" onclick="abrirVideo('video-agrinho.mp4')">
         <video id="videoPrincipal" playsinline onclick="fechar()"></video>
-        <div id="cabeca-click" onclick="abrirVideo('seu-video.mp4')"></div>
-
-        <a href="https://www.youtube.com" target="_blank" class="social-link" id="yt"></a>
-        <a href="https://instagram.com/prof.sergiopereira" target="_blank" class="social-link" id="ig"></a>
-        <a href="https://github.com/profsergiopereira" target="_blank" class="social-link" id="gh"></a>
-    </div>
-
-    <script>
-        const player = document.getElementById('videoPrincipal');
-        const botaoAgro = document.getElementById('agro');
-        const musica = document.getElementById('bgMusic');
-        let somIniciado = false;
-
-        // Ativa o áudio no primeiro toque em qualquer lugar
-        function ativarAudio() {
-            if (!somIniciado) {
-                musica.volume = 0.15; // Volume ameno conforme pedido
-                musica.play().then(() => {
-                    somIniciado = true;
-                }).catch(e => console.log("Aguardando interação..."));
-            }
-        }
-
-        function abrirVideo(nomeArquivo) {
-            ativarAudio(); // Garante que o sistema de áudio "acordou"
-            musica.pause(); // Pausa a música para o vídeo rodar
-
-            player.src = nomeArquivo;
-            player.style.display = 'block';
-            botaoAgro.style.display = 'none';
-            player.muted = false;
-            
-            player.play().catch(() => {
-                player.muted = true;
-                player.play();
-            });
-        }
-
-        function fechar() {
-            player.pause();
-            player.style.display = 'none';
-            player.src = "";
-            
-            // Retoma a música exatamente de onde parou
-            if (somIniciado)
+        <div id="cabeca-click" onclick="ab
