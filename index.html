@@ -5,54 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Prof Sergio Digital</title>
     <style>
-        body { 
-            margin: 0; padding: 0; background: #051622; 
-            display: flex; justify-content: center; align-items: center; 
-            min-height: 100vh; overflow: hidden; 
-        }
-
-        .base { 
-            position: relative; width: 90vw; max-width: 85vh; margin: auto;
-        }
-
+        body { margin: 0; padding: 0; background: #051622; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; }
+        .base { position: relative; width: 90vw; max-width: 85vh; margin: auto; }
         .capa { width: 100%; border-radius: 20px; display: block; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         
-        #agro {
-            position: absolute; top: -5%; right: -2%;
-            width: 28%; max-width: 130px; 
-            z-index: 100; cursor: pointer;
-            animation: bounce 3s ease-in-out infinite;
-            -webkit-tap-highlight-color: transparent;
+        #agro { 
+            position: absolute; top: -5%; right: -2%; width: 28%; max-width: 130px; 
+            z-index: 1000; cursor: pointer; animation: bounce 3s ease-in-out infinite; 
+            -webkit-tap-highlight-color: transparent; 
         }
 
         @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
-        #videoPrincipal {
-            position: absolute; top: 50%; left: 50%; 
-            transform: translate(-50%, -50%);
-            width: 100%; height: auto; max-height: 100vh; 
-            border-radius: 15px; display: none; z-index: 500; background: #000;
+        #videoPrincipal { 
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+            width: 100%; height: auto; max-height: 100vh; border-radius: 15px; 
+            display: none; z-index: 2000; background: #000; 
         }
 
-        #cabeca-click { position: absolute; top: 15%; left: 25%; width: 50%; height: 35%; z-index: 50; cursor: pointer; }
-        
-        .social-link { position: absolute; bottom: 5%; width: 18%; height: 15%; z-index: 60; cursor: pointer; }
+        #cabeca-click { position: absolute; top: 15%; left: 25%; width: 50%; height: 35%; z-index: 500; cursor: pointer; }
+        .social-link { position: absolute; bottom: 5%; width: 18%; height: 15%; z-index: 600; cursor: pointer; }
         #yt { left: 20%; } #ig { left: 41%; } #gh { left: 62%; }
-
         @media (min-width: 1024px) { .base { width: 50vw; } }
     </style>
 </head>
-<body onclick="ligarSom()">
+<body onclick="ativarAudio()">
 
     <audio id="bgMusic" loop preload="auto">
-        <source src="titulo-da-sua-musica.mp3" type="audio/mpeg">
+        <source src="musica-tema.mp3" type="audio/mpeg">
     </audio>
 
     <div class="base">
         <img src="logo.jpg" class="capa">
-        <img src="agrinho.png" id="agro">
-        <video id="videoPrincipal" playsinline></video>
-        <div id="cabeca-click"></div>
+        <img src="agrinho.png" id="agro" onclick="abrirVideo('video-agrinho.mp4')">
+        <video id="videoPrincipal" playsinline onclick="fechar()"></video>
+        <div id="cabeca-click" onclick="abrirVideo('seu-video.mp4')"></div>
 
         <a href="https://www.youtube.com" target="_blank" class="social-link" id="yt"></a>
         <a href="https://instagram.com/prof.sergiopereira" target="_blank" class="social-link" id="ig"></a>
@@ -62,44 +49,38 @@
     <script>
         const player = document.getElementById('videoPrincipal');
         const botaoAgro = document.getElementById('agro');
-        const cabeca = document.getElementById('cabeca-click');
         const musica = document.getElementById('bgMusic');
-        let somLigado = false;
+        let somIniciado = false;
 
-        // Função que LIGA o som no primeiro toque do usuário
-        function ligarSom() {
-            if (!somLigado) {
-                musica.volume = 0.15; // Tom ameno
+        // Ativa o áudio no primeiro toque em qualquer lugar
+        function ativarAudio() {
+            if (!somIniciado) {
+                musica.volume = 0.15; // Volume ameno conforme pedido
                 musica.play().then(() => {
-                    somLigado = true;
-                    console.log("Música iniciada!");
-                }).catch(err => console.log("Aguardando interação..."));
+                    somIniciado = true;
+                }).catch(e => console.log("Aguardando interação..."));
             }
         }
 
-        function abrirVideo(nome) {
-            musica.pause(); // Pausa onde parou
-            player.src = nome;
+        function abrirVideo(nomeArquivo) {
+            ativarAudio(); // Garante que o sistema de áudio "acordou"
+            musica.pause(); // Pausa a música para o vídeo rodar
+
+            player.src = nomeArquivo;
             player.style.display = 'block';
             botaoAgro.style.display = 'none';
             player.muted = false;
-            player.play();
+            
+            player.play().catch(() => {
+                player.muted = true;
+                player.play();
+            });
         }
 
         function fechar() {
             player.pause();
             player.style.display = 'none';
             player.src = "";
-            if (somLigado) musica.play(); // Volta a tocar
-            setTimeout(() => { botaoAgro.style.display = 'block'; }, 60000);
-        }
-
-        // Eventos
-        botaoAgro.addEventListener('click', (e) => { e.stopPropagation(); abrirVideo('video-agrinho.mp4'); });
-        cabeca.addEventListener('click', (e) => { e.stopPropagation(); abrirVideo('seu-video.mp4'); });
-        player.addEventListener('click', fechar);
-        player.onended = fechar;
-    </script>
-
-</body>
-</html>
+            
+            // Retoma a música exatamente de onde parou
+            if (somIniciado)
