@@ -3,71 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Prof Sergio Educação Digital</title>
+    <title>Prof Sergio</title>
     <style>
         body { margin: 0; padding: 0; background: #051622; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; }
-        .container { position: relative; width: 90vw; max-width: 420px; }
-        .main-img { width: 100%; border-radius: 20px; display: block; z-index: 10; }
+        .wrapper { position: relative; width: 90vw; max-width: 420px; }
+        .main-img { width: 100%; border-radius: 20px; display: block; }
         
-        .btn-agrinho {
+        /* NOVO NOME DE CLASSE PARA EVITAR CACHE */
+        .botao-agro-novo {
             position: absolute; top: -30px; right: -10px;
-            width: 110px; z-index: 100; cursor: pointer;
-            animation: flutuar 3s ease-in-out infinite;
+            width: 110px; z-index: 999; cursor: pointer;
+            animation: moveAgro 3s ease-in-out infinite;
             -webkit-tap-highlight-color: transparent;
         }
 
-        @keyframes flutuar {
+        @keyframes moveAgro {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-15px); }
         }
 
-        #video-player {
+        #player {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             border-radius: 20px; object-fit: cover;
-            display: none; z-index: 500; background: #000;
+            display: none; z-index: 1000; background: #000;
         }
 
-        .hotspot { position: absolute; cursor: pointer; z-index: 50; opacity: 0; -webkit-tap-highlight-color: transparent; }
-        #click-cabeca { top: 15%; left: 25%; width: 50%; height: 35%; }
+        .zona-clique { position: absolute; cursor: pointer; z-index: 50; opacity: 0; -webkit-tap-highlight-color: transparent; }
+        #cabeca { top: 15%; left: 25%; width: 50%; height: 35%; }
         .social { bottom: 6%; width: 16%; height: 14%; }
-        #link-yt { left: 22%; } #link-ig { left: 42%; } #link-gh { left: 62%; }
+        #yt { left: 22%; } #ig { left: 42%; } #gh { left: 62%; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <img src="agrinho.png" class="btn-agrinho" onclick="tocarVideo('video-agrinho.mp4')">
+    <div class="wrapper">
+        <img src="agrinho.png" class="botao-agro-novo" onclick="rodarVideo('video-agrinho.mp4')">
 
         <img src="logo.jpg" class="main-img">
 
-        <video id="video-player" playsinline muted></video>
+        <video id="player" playsinline muted></video>
 
-        <div class="hotspot" id="click-cabeca" onclick="tocarVideo('seu-video.mp4')"></div>
+        <div class="zona-clique" id="cabeca" onclick="rodarVideo('seu-video.mp4')"></div>
 
-        <a href="https://youtube.com/@osergiopereira" target="_blank" class="hotspot social" id="link-yt"></a>
-        <a href="https://instagram.com/prof.sergiopereira" target="_blank" class="hotspot social" id="ig"></a>
-        <a href="https://github.com/profsergiopereira" target="_blank" class="hotspot social" id="gh"></a>
+        <a href="https://youtube.com/@osergiopereira" target="_blank" class="zona-clique social" id="yt"></a>
+        <a href="https://instagram.com/prof.sergiopereira" target="_blank" class="zona-clique social" id="ig"></a>
+        <a href="https://github.com/profsergiopereira" target="_blank" class="zona-clique social" id="gh"></a>
     </div>
 
     <script>
-        const player = document.getElementById('video-player');
+        const video = document.getElementById('player');
 
-        function tocarVideo(arquivo) {
-            // Adicionamos um número aleatório ao final para o navegador não usar o vídeo do cache
-            player.src = arquivo + "?v=" + Math.random(); 
-            player.style.display = 'block';
-            player.load(); // Força o carregamento do novo arquivo
-            player.play().catch(e => console.log("Erro: ", e));
+        function rodarVideo(nomeArquivo) {
+            // O código abaixo garante que o navegador busque o arquivo fresco
+            video.src = nomeArquivo + "?t=" + new Date().getTime();
+            video.style.display = 'block';
+            video.load();
+            video.play().catch(error => alert("Erro ao carregar o vídeo: " + nomeArquivo));
         }
 
-        function fechar() {
-            player.pause();
-            player.style.display = 'none';
-            player.src = ""; 
+        function encerrar() {
+            video.pause();
+            video.style.display = 'none';
+            video.src = "";
         }
 
-        player.onended = fechar;
-        player.onclick = fechar;
+        video.onended = encerrar;
+        video.onclick = encerrar;
     </script>
 
 </body>
