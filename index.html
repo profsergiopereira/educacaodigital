@@ -9,7 +9,6 @@
         .container { position: relative; width: 90vw; max-width: 420px; }
         .main-img { width: 100%; border-radius: 20px; display: block; z-index: 10; }
         
-        /* BOTÃO AGRINHO (POP-UP) */
         .btn-agrinho {
             position: absolute; top: -30px; right: -10px;
             width: 110px; z-index: 100; cursor: pointer;
@@ -22,14 +21,12 @@
             50% { transform: translateY(-15px); }
         }
 
-        /* PLAYER DE VÍDEO (FECHA COM 1 CLIQUE) */
         #video-player {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             border-radius: 20px; object-fit: cover;
             display: none; z-index: 500; background: #000;
         }
 
-        /* ÁREAS DE CLIQUE */
         .hotspot { position: absolute; cursor: pointer; z-index: 50; opacity: 0; -webkit-tap-highlight-color: transparent; }
         #click-cabeca { top: 15%; left: 25%; width: 50%; height: 35%; }
         .social { bottom: 6%; width: 16%; height: 14%; }
@@ -47,4 +44,31 @@
 
         <div class="hotspot" id="click-cabeca" onclick="tocarVideo('seu-video.mp4')"></div>
 
-        <a href="https://youtube.com/@osergiopereira" target="_blank" class="hotspot social" id="link
+        <a href="https://youtube.com/@osergiopereira" target="_blank" class="hotspot social" id="link-yt"></a>
+        <a href="https://instagram.com/prof.sergiopereira" target="_blank" class="hotspot social" id="ig"></a>
+        <a href="https://github.com/profsergiopereira" target="_blank" class="hotspot social" id="gh"></a>
+    </div>
+
+    <script>
+        const player = document.getElementById('video-player');
+
+        function tocarVideo(arquivo) {
+            // Adicionamos um número aleatório ao final para o navegador não usar o vídeo do cache
+            player.src = arquivo + "?v=" + Math.random(); 
+            player.style.display = 'block';
+            player.load(); // Força o carregamento do novo arquivo
+            player.play().catch(e => console.log("Erro: ", e));
+        }
+
+        function fechar() {
+            player.pause();
+            player.style.display = 'none';
+            player.src = ""; 
+        }
+
+        player.onended = fechar;
+        player.onclick = fechar;
+    </script>
+
+</body>
+</html>
