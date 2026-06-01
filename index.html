@@ -72,4 +72,48 @@
             box-shadow: 0 0 40px rgba(255, 215, 0, 0.5);
         }
 
-        .
+        .social-btn { 
+            bottom: 5%; 
+            width: 12%; 
+            height: 12%; 
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 70%);
+        }
+
+        #youtube   { left: 28%; } 
+        #instagram { left: 44%; } 
+        #github    { left: 60%; }
+
+    </style>
+</head>
+<body>
+
+    <div class="interface-wrapper">
+        <video id="video-feed" loop muted playsinline preload="auto">
+            <source src="seu-video.mp4" type="video/mp4">
+        </video>
+
+        <img src="logo.jpg" alt="Prof Sergio" class="img-base">
+
+        <div class="hotspot" id="btn-cabelo" onclick="controlarVideo()" title="esse será meu feed mental, atualizado sempre que possivel e necessário"></div>
+
+        <a href="https://www.youtube.com/@osergiopereira" target="_blank" class="hotspot social-btn" id="youtube"></a>
+        <a href="https://www.instagram.com/prof.sergiopereira" target="_blank" class="hotspot social-btn" id="instagram"></a>
+        <a href="https://github.com/profsergiopereira" target="_blank" class="hotspot social-btn" id="github"></a>
+    </div>
+
+    <script>
+        const video = document.getElementById('video-feed');
+        function controlarVideo() {
+            // Se o vídeo estiver pausado ou invisível, dá play
+            if (video.paused || video.style.opacity === "0") {
+                video.style.opacity = "1";
+                video.play().catch(err => console.log("Erro:", err));
+            } else {
+                video.style.opacity = "0";
+                setTimeout(() => { video.pause(); }, 500);
+            }
+        }
+    </script>
+</body>
+</html>
