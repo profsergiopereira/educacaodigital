@@ -12,18 +12,21 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
         }
 
         .container {
             position: relative;
-            line-height: 0;
             max-width: 95vw;
+            max-height: 95vh;
         }
 
         .img-base {
-            width: 100%;
+            width: auto;
             height: auto;
+            max-width: 100%;
             max-height: 90vh;
             border-radius: 15px;
             display: block;
@@ -37,30 +40,24 @@
             height: 100%;
             object-fit: cover;
             border-radius: 15px;
-            display: none; /* Começa escondido */
+            visibility: hidden; /* Usei visibility em vez de display para o navegador não "esquecer" o vídeo */
             z-index: 5;
         }
 
         .hotspot {
             position: absolute;
             cursor: pointer;
-            z-index: 100; /* Sempre no topo para o clique funcionar */
+            z-index: 50; /* Abaixo do vídeo para não atrapalhar o fim, mas acima da imagem */
             opacity: 0;
-            transition: 0.3s;
             -webkit-tap-highlight-color: transparent;
         }
 
-        .hotspot:hover, .hotspot:active {
-            opacity: 1;
-            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
-        }
-
-        /* AJUSTE DAS POSIÇÕES */
+        /* Botão da cabeça - Área de clique bem grande para não errar no celular */
         #btn-cabelo {
-            top: 20%;
-            left: 35%;
-            width: 30%;
-            height: 30%;
+            top: 15%;
+            left: 30%;
+            width: 40%;
+            height: 40%;
         }
 
         .social-btn {
@@ -68,7 +65,6 @@
             width: 15%;
             height: 15%;
         }
-
         #youtube { left: 25%; }
         #instagram { left: 42%; }
         #github { left: 59%; }
@@ -77,10 +73,8 @@
 <body>
 
     <div class="container">
-        <video id="video-feed" muted playsinline>
+        <video id="video-feed" muted playsinline preload="auto">
             <source src="seu-video.mp4" type="video/mp4">
         </video>
 
-        <img src="logo.jpg" alt="Prof Sergio" class="img-base">
-
-        <div class="hotspot" id="btn-cabelo" onclick="ligarVideo()"></div>
+        <img src="logo.
