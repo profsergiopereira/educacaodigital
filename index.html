@@ -8,10 +8,10 @@
         body { margin: 0; padding: 0; background: #051622; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; }
         .base { position: relative; width: 90vw; max-width: 85vh; margin: auto; }
         
-        /* Fundo */
+        /* Imagem de Fundo */
         .capa { width: 100%; border-radius: 20px; display: block; position: relative; z-index: 1; pointer-events: none; }
         
-        /* Agrinho - Camada máxima */
+        /* Botão Agrinho - Camada superior */
         #agro { 
             position: absolute; top: -5%; right: -2%; width: 28%; max-width: 130px; 
             z-index: 9999; cursor: pointer; animation: bounce 3s ease-in-out infinite; 
@@ -44,4 +44,5 @@
 
         <div id="cabeca-click" onclick="abrirVideo('seu-video.mp4', false)"></div>
 
-        <a href="https://www.youtube.com" target="_blank" class="
+        <a href="https://www.youtube.com" target="_blank" class="social-link" id="yt"></a>
+        <a href="https://instagram.com/prof.sergiopereira" target="_blank" class="social-link" id="ig"></a>
