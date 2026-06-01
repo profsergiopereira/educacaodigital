@@ -11,12 +11,10 @@
             min-height: 100vh; overflow: hidden; 
         }
 
-        /* CONFIGURAÇÃO RESPONSIVA DINÂMICA */
         .base { 
             position: relative; 
-            /* No celular usa largura, no PC usa altura para não cortar */
             width: 90vw; 
-            max-width: 85vh; /* No PC, ele se baseia na altura da tela para ficar grande mas caber inteiro */
+            max-width: 85vh; 
             margin: auto;
         }
 
@@ -53,13 +51,16 @@
         }
         #yt { left: 20%; } #ig { left: 41%; } #gh { left: 62%; }
 
-        /* Ajuste para telas muito largas (Desktop Grande) */
         @media (min-width: 1024px) {
-            .base { width: 50vw; } /* No PC ele ocupa metade da largura da tela */
+            .base { width: 50vw; }
         }
     </style>
 </head>
-<body>
+<body onclick="iniciarMusica()">
+
+    <audio id="bgMusic" loop>
+        <source src="titulo-da-sua-musica.mp3" type="audio/mpeg">
+    </audio>
 
     <div class="base">
         <img src="logo.jpg" class="capa">
@@ -67,7 +68,7 @@
         <video id="videoPrincipal" playsinline></video>
         <div id="cabeca-click"></div>
 
-        <a href="https://youtube.com/@osergiopereira" target="_blank" class="social-link" id="yt"></a>
+        <a href="https://www.youtube.com" target="_blank" class="social-link" id="yt"></a>
         <a href="https://instagram.com/prof.sergiopereira" target="_blank" class="social-link" id="ig"></a>
         <a href="https://github.com/profsergiopereira" target="_blank" class="social-link" id="gh"></a>
     </div>
@@ -76,8 +77,22 @@
         const player = document.getElementById('videoPrincipal');
         const botaoAgro = document.getElementById('agro');
         const cabeca = document.getElementById('cabeca-click');
+        const musica = document.getElementById('bgMusic');
+        let musicaAtivada = false;
+
+        // Inicia a música suavemente no primeiro toque
+        function iniciarMusica() {
+            if (!musicaAtivada) {
+                musica.volume = 0.2; // TOM AMENO (20% do volume)
+                musica.play();
+                musicaAtivada = true;
+            }
+        }
 
         function abrirVideo(nome) {
+            // 1. PAUSA A MÚSICA EXATAMENTE ONDE ESTÁ
+            musica.pause(); 
+            
             player.src = nome;
             player.style.display = 'block';
             botaoAgro.style.display = 'none';
@@ -92,14 +107,12 @@
             player.pause();
             player.style.display = 'none';
             player.src = "";
+            
+            // 2. VOLTA A TOCAR DO PONTO QUE PAROU
+            musica.play(); 
+            
             setTimeout(() => { botaoAgro.style.display = 'block'; }, 60000);
         }
 
-        botaoAgro.addEventListener('click', () => abrirVideo('video-agrinho.mp4'));
-        cabeca.addEventListener('click', () => abrirVideo('seu-video.mp4'));
-        player.addEventListener('click', fechar);
-        player.onended = fechar;
-    </script>
-
-</body>
-</html>
+        botaoAgro.addEventListener('click', (e) => {
+            e.stopPropagation(); // Evita conflito com o clique
