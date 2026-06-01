@@ -6,27 +6,32 @@
     <title>Prof Sergio Digital</title>
     <style>
         body { margin: 0; padding: 0; background: #051622; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; }
-        .base { position: relative; width: 90vw; max-width: 85vh; margin: auto; }
-        .capa { width: 100%; border-radius: 20px; display: block; box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 1; }
         
-        /* Botão Agrinho */
+        .base { position: relative; width: 90vw; max-width: 85vh; margin: auto; }
+        
+        /* Imagem de fundo principal */
+        .capa { width: 100%; border-radius: 20px; display: block; box-shadow: 0 10px 30px rgba(0,0,0,0.5); position: relative; z-index: 10; }
+        
+        /* Botão Agrinho - Camada alta para não sumir */
         #agro { 
             position: absolute; top: -5%; right: -2%; width: 28%; max-width: 130px; 
-            z-index: 2000; cursor: pointer; animation: bounce 3s ease-in-out infinite; 
+            z-index: 100; cursor: pointer; animation: bounce 3s ease-in-out infinite; 
             -webkit-tap-highlight-color: transparent; 
-            display: block; /* Começa visível */
         }
 
         @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
+        /* Player de Vídeo - Camada Máxima */
         #videoPrincipal { 
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
             width: 100%; height: auto; max-height: 100vh; border-radius: 15px; 
-            display: none; z-index: 3000; background: #000; 
+            display: none; z-index: 500; background: #000; 
         }
 
-        #cabeca-click { position: absolute; top: 15%; left: 25%; width: 50%; height: 35%; z-index: 1000; cursor: pointer; }
-        .social-link { position: absolute; bottom: 5%; width: 18%; height: 15%; z-index: 1500; cursor: pointer; }
+        /* Áreas de clique invisíveis sobre a capa */
+        #cabeca-click { position: absolute; top: 15%; left: 25%; width: 50%; height: 35%; z-index: 20; cursor: pointer; }
+        
+        .social-link { position: absolute; bottom: 5%; width: 18%; height: 15%; z-index: 30; cursor: pointer; }
         #yt { left: 20%; } #ig { left: 41%; } #gh { left: 62%; }
 
         @media (min-width: 1024px) { .base { width: 50vw; } }
@@ -54,60 +59,4 @@
 
     <script>
         const player = document.getElementById('videoPrincipal');
-        const botaoAgro = document.getElementById('agro');
-        const musica = document.getElementById('bgMusic');
-        let musicaAtivada = false;
-        let aguardandoAgrinho = false;
-
-        function playMusica() {
-            if (!musicaAtivada) {
-                musica.volume = 0.045; 
-                musica.play().then(() => {
-                    musicaAtivada = true;
-                }).catch(e => console.log("Áudio aguardando toque..."));
-            }
-        }
-
-        function abrirVideo(arquivo, isAgro) {
-            if (musicaAtivada || !musica.paused) { musica.pause(); }
-
-            // Se for o vídeo do agrinho, marca que ele deve sumir
-            if (isAgro) {
-                aguardandoAgrinho = true;
-                botaoAgro.style.display = 'none'; // Some imediatamente ao clicar
-            }
-
-            player.src = arquivo;
-            player.loop = false; 
-            player.style.display = 'block';
-            player.muted = false;
-            
-            player.play().catch(err => {
-                player.muted = true;
-                player.play();
-            });
-        }
-
-        function fecharVideo() {
-            player.pause();
-            player.style.display = 'none';
-            player.src = ""; 
-            
-            musica.play();
-            
-            // Se o vídeo fechado foi o do Agrinho, inicia o contador de 1 minuto
-            if (aguardandoAgrinho) {
-                setTimeout(() => {
-                    botaoAgro.style.display = 'block'; // Volta após 60 segundos
-                    aguardandoAgrinho = false;
-                }, 60000); 
-            }
-        }
-
-        player.onended = function() {
-            fecharVideo();
-        };
-    </script>
-
-</body>
-</html>
+        const botaoAgro = document.getElementById('agro
