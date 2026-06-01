@@ -9,10 +9,10 @@
         .base { position: relative; width: 90vw; max-width: 420px; }
         .capa { width: 100%; border-radius: 20px; display: block; z-index: 1; }
         
-        /* Botão Agrinho */
+        /* BOTÃO AGRINHO - Camada mais alta (3000) */
         .agrinho-btn {
             position: absolute; top: -30px; right: -10px;
-            width: 110px; z-index: 1500; cursor: pointer;
+            width: 110px; z-index: 3000; cursor: pointer;
             animation: bounce 3s ease-in-out infinite;
             -webkit-tap-highlight-color: transparent;
         }
@@ -22,7 +22,7 @@
             50% { transform: translateY(-15px); }
         }
 
-        /* Player de Vídeo */
+        /* PLAYER DE VÍDEO - Camada 2500 */
         #videoPrincipal {
             position: absolute; 
             top: 50%; left: 50%; 
@@ -32,37 +32,53 @@
             border-radius: 15px; 
             object-fit: contain; 
             display: none; 
-            z-index: 1000; /* Vídeo fica no meio */
+            z-index: 2500; 
             background: #000;
         }
 
-        /* Área de toque da cabeça */
-        #cabeca-click { 
-            position: absolute; top: 15%; left: 25%; width: 50%; height: 35%; 
-            z-index: 500; cursor: pointer; opacity: 0;
-        }
-        
-        /* REDES SOCIAIS - Z-INDEX ALTO PARA FUNCIONAR SEMPRE */
+        /* REDES SOCIAIS - Camada 2000 */
         .social-link { 
             position: absolute; bottom: 6%; width: 16%; height: 14%; 
-            z-index: 2000; /* Fica acima do vídeo e da imagem */
+            z-index: 2000; 
             cursor: pointer; 
-            -webkit-tap-highlight-color: rgba(255,255,255,0.2); 
+            -webkit-tap-highlight-color: transparent; 
         }
         #yt { left: 22%; } #ig { left: 42%; } #gh { left: 62%; }
+
+        /* CLIQUE NA CABEÇA - Camada 1500 */
+        #cabeca-click { 
+            position: absolute; top: 15%; left: 25%; width: 50%; height: 35%; 
+            z-index: 1500; cursor: pointer; opacity: 0;
+        }
     </style>
 </head>
 <body>
 
     <div class="base">
-        <img src="agrinho.png" id="agro" class="agrinho-btn" onclick="iniciarVideo('video-agrinho.mp4')">
-
         <img src="logo.jpg" class="capa">
-
-        <video id="videoPrincipal" playsinline preload="auto"></video>
 
         <div id="cabeca-click" onclick="iniciarVideo('seu-video.mp4')"></div>
 
         <a href="https://youtube.com/@osergiopereira" target="_blank" class="social-link" id="yt"></a>
         <a href="https://instagram.com/prof.sergiopereira" target="_blank" class="social-link" id="ig"></a>
-        <a href="https://github.com/profsergiopereira" target="_blank" class="social-link" id="
+        <a href="https://github.com/profsergiopereira" target="_blank" class="social-link" id="gh"></a>
+
+        <video id="videoPrincipal" playsinline preload="auto"></video>
+
+        <img src="agrinho.png" id="agro" class="agrinho-btn" onclick="iniciarVideo('video-agrinho.mp4')">
+    </div>
+
+    <script>
+        const player = document.getElementById('videoPrincipal');
+        const botaoAgro = document.getElementById('agro');
+
+        function iniciarVideo(arquivo) {
+            // Esconde o botão e desativa cliques nele
+            botaoAgro.style.display = 'none';
+            
+            player.src = arquivo;
+            player.style.display = 'block';
+            player.muted = false;
+
+            player.play().catch(error => {
+                player.muted
