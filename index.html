@@ -6,34 +6,43 @@
     <title>Prof Sergio Digital</title>
     <style>
         body { margin: 0; padding: 0; background: #051622; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; }
-        .base { position: relative; width: 90vw; max-width: 85vh; margin: auto; }
+        
+        .base { position: relative; width: 90vw; max-width: 85vh; margin: auto; z-index: 10; }
         
         /* Capa */
         .capa { width: 100%; border-radius: 20px; display: block; position: relative; z-index: 5; }
         
-        /* Botão Agrinho - Colocado na camada 99999 */
+        /* BOTÃO AGRINHO - Forçado para o topo com !important */
         #agro { 
-            position: absolute; top: -5%; right: -2%; width: 28%; max-width: 130px; 
-            z-index: 99999; cursor: pointer; animation: bounce 3s ease-in-out infinite; 
+            position: absolute !important; 
+            top: -10% !important; 
+            right: -5% !important; 
+            width: 30% !important; 
+            max-width: 140px !important; 
+            z-index: 999999 !important; 
+            cursor: pointer !important; 
+            display: block !important;
+            animation: bounce 3s ease-in-out infinite;
             -webkit-tap-highlight-color: transparent;
         }
 
         @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
-        /* Áreas de clique - Ampliadas para facilitar o toque no celular */
+        /* Área da Cabeça */
         #cabeca-click { 
-            position: absolute; top: 10%; left: 20%; width: 60%; height: 45%; 
-            z-index: 88888; cursor: pointer; -webkit-tap-highlight-color: transparent;
+            position: absolute; top: 10%; left: 20%; width: 60%; height: 40%; 
+            z-index: 50000; cursor: pointer; 
         }
         
-        .social-link { position: absolute; bottom: 5%; width: 18%; height: 15%; z-index: 88888; cursor: pointer; }
+        /* Redes Sociais */
+        .social-link { position: absolute; bottom: 5%; width: 18%; height: 15%; z-index: 50000; cursor: pointer; }
         #yt { left: 20%; } #ig { left: 41%; } #gh { left: 62%; }
 
-        /* Player de Vídeo - Sempre na frente de tudo quando abre */
+        /* Player de Vídeo - Z-index maior que o Agrinho para cobrir tudo ao abrir */
         #videoPrincipal { 
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
             width: 100%; height: auto; max-height: 100vh; border-radius: 15px; 
-            display: none; z-index: 100000; background: #000; 
+            display: none; z-index: 2000000; background: #000; 
         }
     </style>
 </head>
@@ -49,3 +58,36 @@
         <a href="https://www.youtube.com" target="_blank" class="social-link" id="yt"></a>
         <a href="https://instagram.com/prof.sergiopereira" target="_blank" class="social-link" id="ig"></a>
         <a href="https://github.com/profsergiopereira" target="_blank" class="social-link" id="gh"></a>
+
+        <video id="videoPrincipal" playsinline onclick="fechar()"></video>
+    </div>
+
+    <script>
+        const v = document.getElementById('videoPrincipal');
+        const ag = document.getElementById('agro');
+
+        function abrirVideo(arquivo, sumir) {
+            // Se for Agrinho, esconde por 1 minuto
+            if (sumir) {
+                ag.style.display = 'none';
+                setTimeout(() => { ag.style.display = 'block'; }, 60000);
+            }
+
+            v.src = arquivo;
+            v.style.display = 'block';
+            v.play().catch(() => {
+                v.muted = true;
+                v.play();
+            });
+        }
+
+        function fechar() {
+            v.pause();
+            v.style.display = 'none';
+            v.src = "";
+        }
+
+        v.onended = fechar;
+    </script>
+</body>
+</html>
