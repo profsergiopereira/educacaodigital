@@ -78,13 +78,13 @@
 <body>
 
     <div class="container">
-        <video id="video-feed" loop muted playsinline>
+        <video id="video-feed" muted playsinline>
             <source src="seu-video.mp4" type="video/mp4">
         </video>
 
         <img src="logo.jpg" alt="Prof Sergio" class="img-base">
 
-        <div class="hotspot" id="btn-cabelo" onclick="toggleVideo()" title="esse será meu feed mental, atualizado sempre que possivel e necessário"></div>
+        <div class="hotspot" id="btn-cabelo" onclick="toggleVideo()" title="Clique para o meu feed mental"></div>
 
         <a href="https://www.youtube.com/@osergiopereira" target="_blank" class="hotspot social-btn" id="youtube"></a>
         <a href="https://www.instagram.com/prof.sergiopereira" target="_blank" class="hotspot social-btn" id="instagram"></a>
@@ -92,17 +92,22 @@
     </div>
 
     <script>
+        const v = document.getElementById('video-feed');
+
         function toggleVideo() {
-            var v = document.getElementById('video-feed');
             if (v.style.display === 'none' || v.style.display === '') {
                 v.style.display = 'block';
                 v.play();
             } else {
-                v.pause();
-                v.style.display = 'none';
+                fecharVideo();
             }
         }
-    </script>
 
-</body>
-</html>
+        // Função para esconder o vídeo e resetar
+        function fecharVideo() {
+            v.pause();
+            v.currentTime = 0; // Volta o vídeo para o início
+            v.style.display = 'none';
+        }
+
+        // O SE
