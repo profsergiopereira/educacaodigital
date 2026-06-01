@@ -75,4 +75,28 @@
             
             player.play().catch(err => {
                 player.muted = true;
-                player.
+                player.play();
+            });
+        }
+
+        function fecharVideo() {
+            player.pause();
+            player.style.display = 'none';
+            player.src = ""; 
+            
+            // Retoma a música exatamente de onde parou
+            musica.play();
+            
+            setTimeout(() => {
+                botaoAgro.style.display = 'block';
+            }, 60000);
+        }
+
+        // Fecha o player quando o vídeo da cabeça ou do agrinho terminar
+        player.onended = function() {
+            fecharVideo();
+        };
+    </script>
+
+</body>
+</html>
