@@ -13,7 +13,6 @@
             position: absolute; top: -30px; right: -10px;
             width: 110px; z-index: 999; cursor: pointer;
             animation: bounce 3s ease-in-out infinite;
-            transition: opacity 0.5s ease; /* Para o efeito de aparecer suavemente */
             -webkit-tap-highlight-color: transparent;
         }
 
@@ -41,46 +40,9 @@
 
     <div class="base">
         <img src="agrinho.png" id="agro" class="agrinho-touch" onclick="rodar('video-agrinho.mp4')">
-
         <img src="logo.jpg" class="capa">
-
         <video id="videoPrincipal" playsinline></video>
 
         <div class="toque" id="cabeca-btn" onclick="rodar('seu-video.mp4')"></div>
 
-        <a href="https://youtube.com/@osergiopereira" target="_blank" class="toque rede-btn" id="yt-btn"></a>
-        <a href="https://instagram.com/prof.sergiopereira" target="_blank" class="toque rede-btn" id="ig-btn"></a>
-        <a href="https://github.com/profsergiopereira" target="_blank" class="toque rede-btn" id="gh-btn"></a>
-    </div>
-
-    <script>
-        const vid = document.getElementById('videoPrincipal');
-        const agro = document.getElementById('agro');
-
-        function rodar(arquivo) {
-            vid.src = arquivo;
-            vid.style.display = 'block';
-            
-            // Esconde o Agrinho imediatamente
-            agro.style.display = 'none';
-            agro.style.opacity = '0';
-
-            vid.muted = false;
-            vid.play().catch(e => {
-                vid.muted = true;
-                vid.play();
-            });
-        }
-
-        function fechar() {
-            vid.pause();
-            vid.style.display = 'none';
-            vid.src = "";
-            
-            // Inicia o contador de 1 minuto (60000 milissegundos)
-            console.log("Vídeo fechado. Agrinho voltará em 1 minuto...");
-            
-            setTimeout(function() {
-                agro.style.display = 'block';
-                // Pequeno delay para a transição de opacidade funcionar
-                setTimeout(() => { agro.style.
+        <a href="https
