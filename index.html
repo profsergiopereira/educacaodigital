@@ -71,4 +71,27 @@
             btnAgro.style.pointerEvents = 'none'; // Impede cliques enquanto invisível
 
             v.muted = false; 
-            v.volume = 1.0
+            v.volume = 1.0; 
+            
+            v.play().catch(function(error) {
+                v.muted = true;
+                v.play();
+            });
+        }
+
+        function parar() {
+            v.pause();
+            v.style.display = 'none';
+            v.src = "";
+            
+            // VOLTA O BOTÃO AGRINHO
+            btnAgro.style.opacity = '1';
+            btnAgro.style.pointerEvents = 'auto';
+        }
+
+        v.onended = parar;
+        v.onclick = parar;
+    </script>
+
+</body>
+</html>
