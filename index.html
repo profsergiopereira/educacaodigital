@@ -8,28 +8,32 @@
         body { margin: 0; padding: 0; background: #051622; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; }
         .base { position: relative; width: 90vw; max-width: 85vh; margin: auto; }
         
-        /* Imagem de Fundo */
-        .capa { width: 100%; border-radius: 20px; display: block; position: relative; z-index: 1; pointer-events: none; }
+        /* Capa */
+        .capa { width: 100%; border-radius: 20px; display: block; position: relative; z-index: 5; }
         
-        /* Botão Agrinho - Camada superior */
+        /* Botão Agrinho - Colocado na camada 99999 */
         #agro { 
             position: absolute; top: -5%; right: -2%; width: 28%; max-width: 130px; 
-            z-index: 9999; cursor: pointer; animation: bounce 3s ease-in-out infinite; 
-            -webkit-tap-highlight-color: transparent; pointer-events: auto;
+            z-index: 99999; cursor: pointer; animation: bounce 3s ease-in-out infinite; 
+            -webkit-tap-highlight-color: transparent;
         }
 
         @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
-        /* Áreas de clique (Cabeça e Redes) */
-        #cabeca-click { position: absolute; top: 15%; left: 25%; width: 50%; height: 35%; z-index: 5000; cursor: pointer; pointer-events: auto; }
-        .social-link { position: absolute; bottom: 5%; width: 18%; height: 15%; z-index: 5000; cursor: pointer; pointer-events: auto; }
+        /* Áreas de clique - Ampliadas para facilitar o toque no celular */
+        #cabeca-click { 
+            position: absolute; top: 10%; left: 20%; width: 60%; height: 45%; 
+            z-index: 88888; cursor: pointer; -webkit-tap-highlight-color: transparent;
+        }
+        
+        .social-link { position: absolute; bottom: 5%; width: 18%; height: 15%; z-index: 88888; cursor: pointer; }
         #yt { left: 20%; } #ig { left: 41%; } #gh { left: 62%; }
 
-        /* Player de Vídeo */
+        /* Player de Vídeo - Sempre na frente de tudo quando abre */
         #videoPrincipal { 
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
             width: 100%; height: auto; max-height: 100vh; border-radius: 15px; 
-            display: none; z-index: 10000; background: #000; 
+            display: none; z-index: 100000; background: #000; 
         }
     </style>
 </head>
@@ -40,9 +44,8 @@
         
         <img src="agrinho.png" id="agro" onclick="abrirVideo('video-agrinho.mp4', true)">
         
-        <video id="videoPrincipal" playsinline onclick="fechar()"></video>
-
         <div id="cabeca-click" onclick="abrirVideo('seu-video.mp4', false)"></div>
 
         <a href="https://www.youtube.com" target="_blank" class="social-link" id="yt"></a>
         <a href="https://instagram.com/prof.sergiopereira" target="_blank" class="social-link" id="ig"></a>
+        <a href="https://github.com/profsergiopereira" target="_blank" class="social-link" id="gh"></a>
