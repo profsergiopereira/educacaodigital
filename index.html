@@ -9,10 +9,12 @@
         .base { position: relative; width: 90vw; max-width: 85vh; margin: auto; }
         .capa { width: 100%; border-radius: 20px; display: block; box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 1; }
         
+        /* Botão Agrinho */
         #agro { 
             position: absolute; top: -5%; right: -2%; width: 28%; max-width: 130px; 
             z-index: 2000; cursor: pointer; animation: bounce 3s ease-in-out infinite; 
             -webkit-tap-highlight-color: transparent; 
+            display: block; /* Começa visível */
         }
 
         @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
@@ -38,4 +40,74 @@
 
     <div class="base">
         <img src="logo.jpg" class="capa">
-        <img src="agrinho.png" id="
+        
+        <img src="agrinho.png" id="agro" onclick="abrirVideo('video-agrinho.mp4', true)">
+        
+        <video id="videoPrincipal" playsinline onclick="fecharVideo()"></video>
+
+        <div id="cabeca-click" onclick="abrirVideo('seu-video.mp4', false)"></div>
+
+        <a href="https://www.youtube.com" target="_blank" class="social-link" id="yt"></a>
+        <a href="https://instagram.com/prof.sergiopereira" target="_blank" class="social-link" id="ig"></a>
+        <a href="https://github.com/profsergiopereira" target="_blank" class="social-link" id="gh"></a>
+    </div>
+
+    <script>
+        const player = document.getElementById('videoPrincipal');
+        const botaoAgro = document.getElementById('agro');
+        const musica = document.getElementById('bgMusic');
+        let musicaAtivada = false;
+        let aguardandoAgrinho = false;
+
+        function playMusica() {
+            if (!musicaAtivada) {
+                musica.volume = 0.045; 
+                musica.play().then(() => {
+                    musicaAtivada = true;
+                }).catch(e => console.log("Áudio aguardando toque..."));
+            }
+        }
+
+        function abrirVideo(arquivo, isAgro) {
+            if (musicaAtivada || !musica.paused) { musica.pause(); }
+
+            // Se for o vídeo do agrinho, marca que ele deve sumir
+            if (isAgro) {
+                aguardandoAgrinho = true;
+                botaoAgro.style.display = 'none'; // Some imediatamente ao clicar
+            }
+
+            player.src = arquivo;
+            player.loop = false; 
+            player.style.display = 'block';
+            player.muted = false;
+            
+            player.play().catch(err => {
+                player.muted = true;
+                player.play();
+            });
+        }
+
+        function fecharVideo() {
+            player.pause();
+            player.style.display = 'none';
+            player.src = ""; 
+            
+            musica.play();
+            
+            // Se o vídeo fechado foi o do Agrinho, inicia o contador de 1 minuto
+            if (aguardandoAgrinho) {
+                setTimeout(() => {
+                    botaoAgro.style.display = 'block'; // Volta após 60 segundos
+                    aguardandoAgrinho = false;
+                }, 60000); 
+            }
+        }
+
+        player.onended = function() {
+            fecharVideo();
+        };
+    </script>
+
+</body>
+</html>
