@@ -5,54 +5,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Prof Sergio Educação Digital</title>
     <style>
-        body { 
-            margin: 0; padding: 0; background: #051622; 
-            display: flex; justify-content: center; align-items: center; 
-            min-height: 100vh; overflow: hidden;
+        /* Fundo escuro garantido para não cansar a vista */
+        html, body { 
+            margin: 0; padding: 0; background-color: #051622 !important; 
+            width: 100%; height: 100%; display: flex; 
+            justify-content: center; align-items: center; overflow: hidden;
         }
 
-        .container { 
-            position: relative; width: 90vw; max-width: 420px; 
+        /* Container que segura tudo */
+        .caixa-principal { 
+            position: relative; width: 90vw; max-width: 400px; line-height: 0;
         }
         
-        /* Foto principal */
-        .main-img { 
+        /* Foto do Prof Sergio */
+        .foto-fundo { 
             width: 100%; border-radius: 20px; display: block; 
-            position: relative; z-index: 10;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+            position: relative; z-index: 1;
         }
         
-        /* BOTÃO AGRINHO NO CANTO */
-        .link-agrinho {
+        /* BOTÃO DO AGRINHO */
+        .agro-pop {
             position: absolute; top: -30px; right: -10px;
-            z-index: 100; text-decoration: none;
+            z-index: 999; text-decoration: none; width: 100px;
         }
 
-        .btn-agrinho {
-            width: 100px; height: auto; display: block;
-            animation: flutuar 3s ease-in-out infinite;
-            -webkit-tap-highlight-color: transparent;
+        .agro-img {
+            width: 100%; height: auto; display: block;
+            animation: flutua 3s ease-in-out infinite;
         }
 
-        @keyframes flutuar {
+        @keyframes flutua {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-15px); }
         }
 
-        /* VÍDEO OCULTO */
-        #video-player {
+        /* VÍDEO (Começa invisível) */
+        #meuVideo {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             border-radius: 20px; object-fit: cover;
-            display: none; z-index: 500; background: #000;
+            display: none; z-index: 100; background: #000;
         }
 
-        /* ÁREAS DE CLIQUE */
-        .hotspot { 
+        /* BOTÕES INVISÍVEIS (HOTSPOTS) */
+        .clique { 
             position: absolute; cursor: pointer; z-index: 50; 
             opacity: 0; -webkit-tap-highlight-color: transparent; 
         }
 
-        #click-cabeca { top: 15%; left: 25%; width: 50%; height: 35%; }
-        .social { bottom: 6%; width: 16%; height: 14%; }
+        #cabeca { top: 15%; left: 25%; width: 50%; height: 35%; }
+        .redes { bottom: 6%; width: 16%; height: 14%; }
         #link-yt { left: 22%; } 
         #link-ig { left: 42%; } 
         #link-gh { left: 62%; }
@@ -61,42 +63,44 @@
 </head>
 <body>
 
-    <div class="container">
+    <div class="caixa-principal">
         
-        <a href="https://www.sistemafaep.org.br/agrinho/" target="_blank" class="link-agrinho">
-            <img src="agrinho.png" class="btn-agrinho">
+        <a href="https://www.sistemafaep.org.br/agrinho/" target="_blank" class="agro-pop">
+            <img src="agrinho.png" class="agro-img" onerror="this.style.border='2px solid red'; console.log('Erro ao carregar agrinho.png')">
         </a>
 
-        <img src="logo.jpg" class="main-img">
+        <img src="logo.jpg" class="foto-fundo" onerror="this.style.border='2px solid yellow'; alert('A imagem logo.jpg não foi encontrada no seu GitHub!')">
 
-        <video id="video-player" playsinline muted>
+        <video id="meuVideo" playsinline muted>
             <source src="seu-video.mp4" type="video/mp4">
         </video>
 
-        <div class="hotspot" id="click-cabeca" onclick="abrir()"></div>
+        <div class="clique" id="cabeca" onclick="playAgora()"></div>
 
-        <a href="https://youtube.com/@osergiopereira" target="_blank" class="hotspot social" id="link-yt"></a>
-        <a href="https://instagram.com/prof.sergiopereira" target="_blank" class="hotspot social" id="link-ig"></a>
-        <a href="https://github.com/profsergiopereira" target="_blank" class="hotspot social" id="link-gh"></a>
+        <a href="https://youtube.com/@osergiopereira" target="_blank" class="clique redes" id="link-yt"></a>
+        <a href="https://instagram.com/prof.sergiopereira" target="_blank" class="clique redes" id="link-ig"></a>
+        <a href="https://github.com/profsergiopereira" target="_blank" class="clique redes" id="link-gh"></a>
 
     </div>
 
     <script>
-        const v = document.getElementById('video-player');
+        const vid = document.getElementById('meuVideo');
 
-        function abrir() {
-            v.style.display = 'block';
-            v.currentTime = 0;
-            v.play();
+        function playAgora() {
+            vid.style.display = 'block';
+            vid.currentTime = 0;
+            vid.play().catch(e => alert("Erro ao dar play no vídeo. Verifique se o arquivo seu-video.mp4 está correto."));
         }
 
-        function fechar() {
-            v.pause();
-            v.style.display = 'none';
+        function fecharTudo() {
+            vid.pause();
+            vid.style.display = 'none';
         }
 
-        // Fecha quando acaba
-        v.onended = fechar;
-        
-        // Fecha com 1 clique no vídeo
-        v.onclick = fechar;
+        // Eventos para fechar (fim do vídeo ou clique sobre ele)
+        vid.onended = fecharTudo;
+        vid.onclick = fecharTudo;
+    </script>
+
+</body>
+</html>
